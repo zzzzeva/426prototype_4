@@ -25,10 +25,11 @@ public class PlayerController : MonoBehaviour
     {
 
         horizontal = Input.GetAxisRaw("Horizontal_p1");
+
         
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce-bubbleTotal);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
@@ -76,18 +77,6 @@ public class PlayerController : MonoBehaviour
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
-    //public void InsideBubble(bool inside)
-    //{
-    //    if (inside)
-    //    {
-    //        //rb.gravityScale = gravityScaleInsideBubble;
-    //        isGrounded = true;
-    //    }
-    //    else
-    //    {
-    //        //rb.gravityScale = gravityScaleOutsideBubble;
-    //        isGrounded = false;
-    //    }
-    //}
+
 
 }
