@@ -23,6 +23,7 @@ public class CircleGrow: MonoBehaviour
             if (hit.collider == null)
             {
                 GameObject temp = Instantiate(circlePrefab, pos, Quaternion.identity);
+                playerController.bubbleTotal++;
                 temp.GetComponent<CircleGrow>().playerController = playerController;
                 isPressed = true;
             }
@@ -60,6 +61,7 @@ public class CircleGrow: MonoBehaviour
             //{
             //    playerController.InsideBubble(false);
             //}
+            playerController.bubbleTotal--;
             Destroy(gameObject);
 
         }

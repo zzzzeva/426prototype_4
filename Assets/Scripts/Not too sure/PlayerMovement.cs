@@ -15,8 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private ParticleSystem playerParticles;
     public GameObject CameraGet;
 
-    /*AudioSource playerAudio;
-    public AudioClip splat;*/
+    AudioSource playerAudio;
+    public AudioClip splat;
 
     private void Awake()
     {
