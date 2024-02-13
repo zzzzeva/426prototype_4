@@ -13,11 +13,14 @@ public class PlayerController : MonoBehaviour
     private float horizontal;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    private AudioSource audioSource;
+    public AudioClip jump;
 
-    public int bubbleTotal = 0;
+    //public int bubbleTotal = 0;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -30,6 +33,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            audioSource.clip = jump;
+            audioSource.Play();
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0f)
