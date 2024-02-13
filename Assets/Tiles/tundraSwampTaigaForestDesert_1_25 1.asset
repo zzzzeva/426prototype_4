@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: tundraSwampTaigaForestDesert_1_25
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 416760366, guid: 8b57cd0203fa75442aa81bcf9d19f432, type: 3}
-  m_Color: {r: 0.4604535, g: 0, b: 0.972549, a: 1}
+  m_Sprite: {fileID: -1801177412, guid: e0040f90f611e6d439c63ca5f3693f77, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
