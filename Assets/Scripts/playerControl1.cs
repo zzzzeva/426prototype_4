@@ -15,11 +15,17 @@ public class playerControl1 : MonoBehaviour
     [SerializeField] private GameObject pointer;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject innerCircle;
-    
+
+    AudioSource playerAudio;
+    public AudioClip pop;
+    public ParticleSystem bubbleEffect;
+    public AudioSource popSound;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerAudio = GetComponent<AudioSource>();
+        playerAudio.clip = pop;
         nextFireTime = Time.time; // Initialize next fire time
     }
 
@@ -77,11 +83,16 @@ public class playerControl1 : MonoBehaviour
         // Instantiate projectile at the position of the pointer
         GameObject projectile = Instantiate(projectilePrefab, pointer.transform.position, Quaternion.identity);
 
+        projectile.GetComponent<bubbleControl1>().bubbleEffect = bubbleEffect;
+        projectile.GetComponent<bubbleControl1>().bubbleAudio = popSound;
+
         // Calculate direction towards pointer
         Vector3 direction = (pointer.transform.position - transform.position).normalized;
 
         // Apply force to the projectile in the direction of the pointer
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+
+        playerAudio.Play();
     }
 
     IEnumerator ScaleOverTime(GameObject innerCircle, float duration)

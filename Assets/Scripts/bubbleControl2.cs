@@ -4,17 +4,10 @@ using UnityEngine;
 
 public class bubbleControl2 : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public AudioSource bubbleAudio;
+    public ParticleSystem bubbleEffect;
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -22,7 +15,17 @@ public class bubbleControl2 : MonoBehaviour
         if (collision.gameObject.CompareTag("Player 1"))
         {
             // Destroy the projectile
+
+            bubbleAudio.Play();
+
+            if (bubbleEffect != null)
+            {
+                bubbleEffect.transform.position = transform.position;
+                bubbleEffect.Play();
+
+            }
             Destroy(gameObject);
         }
     }
+
 }

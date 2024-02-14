@@ -14,9 +14,16 @@ public class playerControl2 : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject innerCircle;
 
+    private AudioSource playerAudio;
+    public AudioClip pop;
+    public ParticleSystem bubbleEffect;
+    public AudioSource popSound;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerAudio = GetComponent<AudioSource>();
+        playerAudio.clip = pop;
         nextFireTime = Time.time; // Initialize next fire time
     }
 
@@ -27,20 +34,20 @@ public class playerControl2 : MonoBehaviour
         float horizontalInput = 0f;
         float verticalInput = 0f;
 
-        if (Input.GetKey(KeyCode.Keypad8))
+        if (Input.GetKey(KeyCode.Keypad8)|| Input.GetKey(KeyCode.UpArrow))
         {
             verticalInput = 1f;
         }
-        else if (Input.GetKey(KeyCode.Keypad5))
+        else if (Input.GetKey(KeyCode.Keypad5) || Input.GetKey(KeyCode.DownArrow))
         {
             verticalInput = -1f;
         }
 
-        if (Input.GetKey(KeyCode.Keypad4))
+        if (Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.LeftArrow))
         {
             horizontalInput = -1f;
         }
-        else if (Input.GetKey(KeyCode.Keypad6))
+        else if (Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.RightArrow))
         {
             horizontalInput = 1f;
         }
@@ -51,17 +58,17 @@ public class playerControl2 : MonoBehaviour
         transform.Translate(movement);
 
         // Rotate the pointer around the circle sprite
-        if (Input.GetKey(KeyCode.Keypad9))
+        if (Input.GetKey(KeyCode.Keypad9) || Input.GetKey(KeyCode.RightShift))
         {
             pointer.transform.RotateAround(transform.position, Vector3.forward, -rotationSpeed * Time.deltaTime);
         }
-        else if (Input.GetKey(KeyCode.Keypad7))
+        else if (Input.GetKey(KeyCode.Keypad7) || Input.GetKey(KeyCode.Slash))
         {
             pointer.transform.RotateAround(transform.position, Vector3.forward, rotationSpeed * Time.deltaTime);
         }
 
         // Fire projectile if cooldown has passed
-        if (Input.GetKeyDown(KeyCode.Keypad0) && Time.time >= nextFireTime)
+        if (Input.GetKeyDown(KeyCode.Keypad0) && Time.time >= nextFireTime || Input.GetKey(KeyCode.Return) && Time.time >= nextFireTime)
         {
             FireProjectile();
             nextFireTime = Time.time + fireCooldown; // Set next fire time
@@ -74,11 +81,15 @@ public class playerControl2 : MonoBehaviour
         // Instantiate projectile at the position of the pointer
         GameObject projectile = Instantiate(projectilePrefab, pointer.transform.position, Quaternion.identity);
 
+        projectile.GetComponent<bubbleControl2>().bubbleEffect = bubbleEffect;
+        projectile.GetComponent<bubbleControl2>().bubbleAudio = popSound;
         // Calculate direction towards pointer
         Vector3 direction = (pointer.transform.position - transform.position).normalized;
 
         // Apply force to the projectile in the direction of the pointer
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+
+        playerAudio.Play();
     }
 
     IEnumerator ScaleOverTime(GameObject innerCircle, float duration)
@@ -95,6 +106,6 @@ public class playerControl2 : MonoBehaviour
         }
 
         // Ensure the scale is set to the target scale when done
-        transform.localScale = originalScale;
+        innerCircle.transform.localScale = originalScale;
     }
 }
