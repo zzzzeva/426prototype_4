@@ -8,10 +8,11 @@ public class playerControl2 : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float projectileSpeed;
     private double nextFireTime;
-    public static double fireCooldown = 2;
+    public static float fireCooldown = 2;
 
     [SerializeField] private GameObject pointer;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject innerCircle;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +65,7 @@ public class playerControl2 : MonoBehaviour
         {
             FireProjectile();
             nextFireTime = Time.time + fireCooldown; // Set next fire time
+            StartCoroutine(ScaleOverTime(innerCircle, fireCooldown));
         }
     }
 
@@ -77,5 +79,22 @@ public class playerControl2 : MonoBehaviour
 
         // Apply force to the projectile in the direction of the pointer
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+    }
+
+    IEnumerator ScaleOverTime(GameObject innerCircle, float duration)
+    {
+        Vector3 originalScale = innerCircle.transform.localScale; // Assuming the original scale might not be Vector3.zero
+        Vector3 zeroScale = Vector3.zero;
+
+        float time = 0;
+        while (time < duration)
+        {
+            innerCircle.transform.localScale = Vector3.Lerp(zeroScale, originalScale, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the scale is set to the target scale when done
+        transform.localScale = originalScale;
     }
 }
