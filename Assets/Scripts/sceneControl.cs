@@ -5,10 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class sceneControl : MonoBehaviour
 {
+    [SerializeField] private AudioClip backgroundMusic; // Background music clip
+    private AudioSource audioSource; // AudioSource component to play background music
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Get the AudioSource component attached to the GameObject or create one if not present
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Play background music
+        if (backgroundMusic != null)
+        {
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true; // Loop the background music
+            audioSource.Play();
+        }
     }
 
     // Update is called once per frame
